@@ -1,0 +1,31 @@
+{
+  "name": "crud-clubes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daxas-boop/crud-clubes.git"
+  },
+  "author": "daxas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daxas-boop/crud-clubes/issues"
+  },
+  "homepage": "https://github.com/daxas-boop/crud-clubes#readme",
+  "devDependencies": {
+    "eslint": "^7.14.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "bulma": "^0.9.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.0"
+  }
+}
