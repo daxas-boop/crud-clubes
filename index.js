@@ -2,7 +2,7 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const fs = require('fs');
 
-const PUERTO = 8080;
+const PUERTO = process.env.PORT || 8080;
 const app = express();
 
 app.engine('handlebars', exphbs());
