@@ -1,0 +1,12 @@
+<div class="container">
+  <h2 class="has-text-centered is-size-2">Edita el equipo</h2>
+  <form action="/equipo/{{equipo.id}}/editar">
+    <div class="field">
+      <label class="label">Nombre</label>
+      <div class="control">
+        <input class="input" type="text" placeholder="Text input" value={{equipo.name}}>
+      </div>
+    </div>
+    <button type="submit" class="button">Enviar</button>
+  </form>
+</div>
