@@ -11,6 +11,10 @@
         <th>Nombre</th>
         <td>{{equipo.name}}</td>
       </tr>
+       <tr>
+        <th>Pais</th>
+        <td>{{equipo.area.name}}</td>
+      </tr>
       <tr>
         <th>Siglas</th>
         <td>{{equipo.tla}}</td>
@@ -34,7 +38,7 @@
     </tbody>
   </table>
   <div>
-    <a href="/equipo/{{equipo.id}}/editar" class="button">Editar</a>
-    <button class="button">Eliminar</button>
+    <a href="/equipo/{{equipo.id}}/editar" class="button is-primary">Editar</a>
+    <button class="button is-danger">Eliminar</button>
   </div>
 </div>
