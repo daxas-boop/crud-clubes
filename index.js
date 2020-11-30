@@ -49,9 +49,7 @@ app.post('/equipo/:id/editar', upload.single('logo'), (req, res) => {
   }
   fs.writeFileSync('./data/equipos.json', JSON.stringify(equipos));
   res.render('editar-equipo', {
-    data: {
-      exito: true,
-    },
+    data: { exito: true },
   });
 });
 
@@ -60,7 +58,44 @@ app.get('/crear-equipo', (req, res) => {
 });
 
 app.post('/crear-equipo', upload.single('logo'), (req, res) => {
-  // TODO
+  const equipos = getEquipos();
+  const ultimaId = equipos[equipos.length - 1].id;
+  const nuevaId = ultimaId + 1;
+
+  const nuevoEquipo = {
+    id: nuevaId,
+    name: req.body.nombre,
+    area: {
+      name: req.body.pais,
+    },
+    tla: req.body.siglas,
+    founded: req.body.fundado,
+    clubColors: req.body.colores,
+    address: req.body.direccion,
+    crestUrl: `/logos/${req.file.filename}`,
+  };
+
+  equipos.push(nuevoEquipo);
+  fs.writeFileSync('./data/equipos.json', JSON.stringify(equipos));
+  res.render('crear-equipo', {
+    data: { exito: true },
+  });
+});
+
+app.get('/equipo/:id/eliminar', (req, res) => {
+  const equipos = getEquipos();
+  const equipo = equipos.find((e) => e.id === Number(req.params.id));
+  res.render('eliminar-equipo', { equipo });
+});
+
+app.post('/equipo/:id/eliminar', (req, res) => {
+  const equipos = getEquipos();
+  const equipo = equipos.find((e) => e.id === Number(req.params.id));
+  equipos.splice(equipos.indexOf(equipo), 1);
+  fs.writeFileSync('./data/equipos.json', JSON.stringify(equipos));
+  res.render('eliminar-equipo', {
+    data: { exito: true },
+  });
 });
 
 app.listen(PUERTO);

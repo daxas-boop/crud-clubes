@@ -1,0 +1,22 @@
+{{#if data.exito}}
+<div class="container is-flex is-flex-direction-column is-align-items-center">
+  <h2 class="is-size-1 is-text-align-center my-5">Equipo eliminado con exito!</h2>
+  <a href="/" class="button">Volver a la Pagina Principal</a>
+</div>
+{{else}}
+<div class="modal-background"></div>
+<div class="modal-card mt-6">
+  <header class="modal-card-head">
+    <p class="modal-card-title has-text-centered">Queres eliminar el equipo {{equipo.name}} ?</p>
+  </header>
+  <div class="modal-card-body has-text-centered">
+    Una vez que elimines este equipo no se podra volver a acceder.
+  </div>
+  <footer class="modal-card-foot is-flex is-justify-content-center">
+    <form method="POST" action="/equipo/{{equipo.id}}/eliminar">
+      <button class="button is-danger">Si, eliminar.</button>
+      <a href="/" class="button">No, volver atras.</a>
+    </form>
+  </footer>
+</div>
+{{/if}}
