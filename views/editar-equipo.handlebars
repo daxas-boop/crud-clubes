@@ -1,0 +1,53 @@
+{{#if data.exito}}
+<div class="container is-flex is-flex-direction-column is-align-items-center">
+  <h2 class="is-size-1 is-text-align-center my-5">Equipo editado con exito!</h2>
+  <a href="/" class="button">Volver a la Pagina Principal</a>
+</div>
+{{else}}
+<div class="container is-flex is-align-items-center is-flex-direction-column">
+  <h2 class="has-text-centered is-size-1">Edita el equipo</h2>
+  <form class="is-flex is-flex-direction-column" action="/equipo/{{equipo.id}}/editar" method="POST" enctype="multipart/form-data">
+    <div class="field">
+      <label for="nombre" class="label">Nombre</label>
+      <div class="control">
+        <input class="input" name="nombre" type="text" value="{{equipo.name}}" required />
+      </div>
+    </div>
+    <div class="field">
+      <label for="pais" class="label">Pais</label>
+      <div class="control">
+        <input class="input" name="pais" type="text" value="{{equipo.area.name}}" required />
+      </div>
+    </div>
+    <div class="field">
+      <label for="siglas" class="label">Siglas</label>
+      <div class="control">
+        <input class="input" name="siglas" type="text" value="{{equipo.tla}}" required />
+      </div>
+    </div>
+    <div class="field">
+      <label for="fundado" class="label">Fundado en el año</label>
+      <div class="control">
+        <input class="input" name="fundado" type="text" value="{{equipo.founded}}" required />
+      </div>
+    </div>
+    <div class="field">
+      <label for="colores" class="label">Colores del club</label>
+      <div class="control">
+        <input class="input" name="colores" type="text" value="{{equipo.clubColors}}" required />
+      </div>
+    </div>
+    <div class="field">
+      <label for="direccion" class="label">Dirección</label>
+      <div class="control">
+        <input class="input" name="direccion" type="text" value="{{equipo.address}}" required />
+      </div>
+    </div>
+      <label for="direccion" class="label">Logo</label>
+      <img src={{equipo.crestUrl}} class="image is-128x128 is-align-self-center my-2">
+      <label class="label mt-5" for="logo">Agrega un nuevo logo</label>
+      <input class="my-4" type="file" name="logo">
+    <button type="submit" class="button is-align-self-center my-3">Enviar</button>
+  </form>
+</div>
+{{/if}}

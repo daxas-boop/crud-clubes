@@ -1,0 +1,46 @@
+<div class="container is-flex is-align-items-center is-flex-direction-column">
+  <img class="image is-128x128 my-2" src={{equipo.crestUrl}}>
+  <h3 class="my-4 is-size-3">{{equipo.name}}</h3>
+  <table class="table table is-striped table is-hoverable table is-bordered">
+    <thead>
+      <th class="has-text-centered">Información</th>
+      <th class="has-text-centered">Valor</th>
+    </thead>
+    <tbody>
+      <tr >
+        <th>Nombre</th>
+        <td>{{equipo.name}}</td>
+      </tr>
+       <tr>
+        <th>Pais</th>
+        <td>{{equipo.area.name}}</td>
+      </tr>
+      <tr>
+        <th>Siglas</th>
+        <td>{{equipo.tla}}</td>
+      </tr>
+      <tr>
+        <th>Fundado en el año</th>
+      {{#if equipo.founded}}
+        <td>{{equipo.founded}}</td>
+      {{else}}
+        <td>No encontrado</td>
+      {{/if}}
+      </tr>
+      <tr>
+        <th>Colores del club</th>
+        <td>{{equipo.clubColors}}</td>
+      </tr>
+      <tr>
+        <th>Dirección</th>
+        <td>{{equipo.address}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <iframe class='mb-3' src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAO-SOdVnZvTaEmjCXfRbBpitWkmjuOXcY
+    &q={{equipo.address}}" width="400" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+  <div>
+    <a href="/equipo/{{equipo.id}}/editar" class="button is-primary">Editar</a>
+    <button class="button is-danger">Eliminar</button>
+  </div>
+</div>

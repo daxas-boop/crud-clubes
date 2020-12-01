@@ -1,1 +1,33 @@
-<h1>Home</h1>
+<div class="container is-flex is-align-items-center is-flex-direction-column">
+  <div class="is-flex">
+    <p class="my-4 mx-4 ">Hay {{equipos.length}} equipos.</p>
+    <a href="/crear-equipo" class="button my-2 is-success">Agrega tu Equipo</a>
+  </div>
+  <table class="table table is-striped table is-hoverable table is-bordered">
+    <thead>
+      <th class="has-text-centered">Equipo</th>
+      <th class="has-text-centered ">Pais</th>
+      <th class="has-text-centered">Acciones</th>
+    </thead>
+    <tbody>
+      {{#each equipos}}
+        <tr>
+          <td>
+            <div class="is-flex is-align-items-center">
+              <img src={{this.crestUrl}} alt="logo of the team" class="image is-32x32" />
+              <p class="ml-2">{{this.name}}</p>
+            </div>
+          </td>
+          <td>
+            <p class="mx-4 mt-2">{{this.area.name}}</p>
+          </td>
+          <td>
+            <a href="/equipo/{{this.id}}/ver" class="button is-info">Ver</a> 
+            <a href="/equipo/{{this.id}}/editar" class="button is-primary">Editar</a>
+            <a href="/equipo/{{this.id}}/eliminar" class="button is-danger">Eliminar</a>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
