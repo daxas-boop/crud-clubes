@@ -1,6 +1,6 @@
 <div class="container is-flex is-align-items-center is-flex-direction-column">
   <div class="is-flex">
-    <p class="my-4 mx-4 ">Hay {{equipos.length}} equipos.</p>
+    <p class="my-4 mx-4 ">Hay {{clubs.length}} equipos.</p>
     <a href="/crear-equipo" class="button my-2 is-success">Agrega tu Equipo</a>
   </div>
   <table class="table table is-striped table is-hoverable table is-bordered">
@@ -10,7 +10,7 @@
       <th class="has-text-centered">Acciones</th>
     </thead>
     <tbody>
-      {{#each equipos}}
+      {{#each clubs}}
         <tr>
           <td>
             <div class="is-flex is-align-items-center">
