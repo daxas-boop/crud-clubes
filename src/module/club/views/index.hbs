@@ -1,12 +1,11 @@
 <div class="container is-flex is-align-items-center is-flex-direction-column">
   <div class="is-flex">
     <p class="my-4 mx-4 ">Hay {{clubs.length}} equipos.</p>
-    <a href="/crear-equipo" class="button my-2 is-success">Agrega tu Equipo</a>
+    <a href="/club/create" class="button my-2 is-success">Agrega tu Equipo</a>
   </div>
   <table class="table table is-striped table is-hoverable table is-bordered">
     <thead>
       <th class="has-text-centered">Equipo</th>
-      <th class="has-text-centered ">Pais</th>
       <th class="has-text-centered">Acciones</th>
     </thead>
     <tbody>
@@ -19,12 +18,9 @@
             </div>
           </td>
           <td>
-            <p class="mx-4 mt-2">{{this.area.name}}</p>
-          </td>
-          <td>
-            <a href="/equipo/{{this.id}}/ver" class="button is-info">Ver</a> 
-            <a href="/equipo/{{this.id}}/editar" class="button is-primary">Editar</a>
-            <a href="/equipo/{{this.id}}/eliminar" class="button is-danger">Eliminar</a>
+            <a href="/club/view/{{this.id}}" class="button is-info">Ver</a> 
+            <a href="/club/edit/{{this.id}}" class="button is-primary">Editar</a>
+            <a href="/club/delete/{{this.id}}" class="button is-danger">Eliminar</a>
           </td>
         </tr>
       {{/each}}
