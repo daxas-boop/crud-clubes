@@ -1,4 +1,18 @@
-<div class="container is-flex is-align-items-center is-flex-direction-column">
+<div id="container" class="container is-flex is-align-items-center is-flex-direction-column">
+  {{#each messages}}
+    <div class="message is-primary mt-6">
+      <div class="message-body">
+        {{this}}
+      </div>
+    </div>
+  {{/each}}
+  {{#each errors}}
+    <div class="message is-danger mt-6">
+      <div class="message-body">
+        {{this}}
+      </div>
+    </div>
+  {{/each}}
   <div class="is-flex">
     <p class="my-4 mx-4 ">Hay {{clubs.length}} equipos.</p>
     <a href="/club/create" class="button my-2 is-success">Agrega tu Equipo</a>
@@ -13,17 +27,22 @@
         <tr>
           <td>
             <div class="is-flex is-align-items-center">
-              <img src={{this.crestUrl}} alt="logo of the team" class="image is-32x32" />
+              {{#if this.crestUrl}}
+              <img src='{{this.crestUrl}}' alt="logo of the team" class="image is-32x32" />
+              {{/if}}
               <p class="ml-2">{{this.name}}</p>
             </div>
           </td>
           <td>
             <a href="/club/view/{{this.id}}" class="button is-info">Ver</a> 
             <a href="/club/edit/{{this.id}}" class="button is-primary">Editar</a>
-            <a href="/club/delete/{{this.id}}" class="button is-danger">Eliminar</a>
+            <button id="delete-btn" class="button is-danger" data-name="{{this.name}}" data-id="{{this.id}}">Eliminar</button>
           </td>
         </tr>
       {{/each}}
     </tbody>
   </table>
+  <div id="prompt-container"></div>
 </div>
+
+<script src="/public/js/delete-club-prompt.js"></script>

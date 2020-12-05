@@ -21,7 +21,7 @@
     <div class="field">
       <label for="short-name" class="label">Nombre Corto</label>
       <div class="control">
-        <input class="input field-body" name="short-name" type="text" value="{{club.name}}" required >
+        <input class="input field-body" name="short-name" type="text" value="{{club.shortName}}" required >
       </div>
     </div>
 
@@ -37,7 +37,7 @@
      <div class="field ">
       <label for="direccion" class="label">Escudo del club</label>
         <div class="control">
-          <img src={{club.crestUrl}} class="image is-128x128  my-2 input field-body">
+          <img src="/{{club.crestUrl}}" class="image is-128x128  my-2 input field-body">
         </div>
     </div>
     {{/if}}
