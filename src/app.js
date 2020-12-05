@@ -8,16 +8,19 @@ const { init: initializeClubModule } = require('./module/club/module');
 const PUERTO = process.env.PORT || 8080;
 const app = express();
 
-app.engine('handlebars', exphbs({
+app.engine('hbs', exphbs({
   defaultLayout: 'main',
   layoutsDir: path.join(__dirname, '/module/view'),
+  extname: 'hbs',
 }));
-app.set('view engine', 'handlebars');
+app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, '/module/club/views'));
-app.use(express.static(`${__dirname}/public/img/`));
+
 app.use(express.urlencoded({ extended: true }));
+app.use('/public', express.static('public'));
 
 const container = configureDependencyInjection();
+app.use(container.get('session'));
 initializeClubModule(app, container);
 
 const clubController = container.get('ClubController');

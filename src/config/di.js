@@ -5,7 +5,19 @@ const fs = require('fs');
 const uuid = require('uuid');
 const multer = require('multer');
 const path = require('path');
+const session = require('express-session');
 const { ClubController, ClubService, ClubRepository } = require('../module/club/module');
+
+function configureSession() {
+  const sessionConfig = {
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 604800000 },
+  };
+
+  return session(sessionConfig);
+}
 
 function configureMulter() {
   const storage = multer.diskStorage({
@@ -34,6 +46,7 @@ function configureJSONDatabase() {
 function addCommonDefinition(container) {
   container.addDefinitions({
     fs,
+    session: factory(configureSession),
     uuid: factory(configureUuid),
     multer: factory(configureMulter),
     JSONDatabase: factory(configureJSONDatabase),

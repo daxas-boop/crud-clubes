@@ -8,7 +8,13 @@ module.exports = class AbstractClubRepository {
     }
   }
 
-  getAll() {
+  getAll() {}
 
-  }
+  getById() {}
+
+  getData() {}
+
+  save() {}
+
+  delete() {}
 };
