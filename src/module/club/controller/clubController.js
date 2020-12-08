@@ -1,7 +1,7 @@
 /* eslint-disable class-methods-use-this */
 const AbstractController = require('../../abstractController');
 const ClubIdNotDefinedError = require('./error/clubIdNotDefinedError');
-const fromDataToEntity = require('../mapper/clubMapper');
+const { fromDataToEntity } = require('../mapper/clubMapper');
 
 module.exports = class ClubController extends AbstractController {
   /**

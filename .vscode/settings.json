@@ -1,0 +1,11 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "clubs.db",
+      "database": "${workspaceFolder:crud-clubes}/data/database.db"
+    }
+  ],
+  "sqltools.useNodeRuntime": true
+}

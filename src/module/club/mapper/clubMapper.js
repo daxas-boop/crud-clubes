@@ -1,10 +1,40 @@
 const Club = require('../entity/club');
 
+function fromDbToEntity({
+  id,
+  name,
+  short_name: shortName,
+  tla,
+  crest_url: crestUrl,
+  address,
+  phone,
+  website,
+  email,
+  founded,
+  club_colors: clubColors,
+  venue,
+}) {
+  return new Club({
+    id,
+    name,
+    shortName,
+    tla,
+    crestUrl,
+    address,
+    phone,
+    website,
+    email,
+    founded,
+    clubColors,
+    venue,
+  });
+}
+
 /**
  * @param {Object} formData
  * @returns Club
  */
-module.exports = function fromDataToEntity({
+function fromDataToEntity({
   id,
   name,
   'short-name': shortName,
@@ -32,4 +62,9 @@ module.exports = function fromDataToEntity({
     clubColors,
     venue,
   });
+}
+
+module.exports = {
+  fromDataToEntity,
+  fromDbToEntity,
 };

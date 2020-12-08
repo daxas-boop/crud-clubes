@@ -1,12 +1,15 @@
 const {
   default: DIContainer, object, get, factory,
 } = require('rsdi');
-const fs = require('fs');
-const uuid = require('uuid');
+const Sqlite3Database = require('better-sqlite3');
 const multer = require('multer');
 const path = require('path');
 const session = require('express-session');
 const { ClubController, ClubService, ClubRepository } = require('../module/club/module');
+
+function configureDatabase() {
+  return new Sqlite3Database(process.env.DB_PATH);
+}
 
 function configureSession() {
   const sessionConfig = {
@@ -32,24 +35,14 @@ function configureMulter() {
   return multer({ storage });
 }
 
-function configureUuid() {
-  return uuid.v4;
-}
-
-function configureJSONDatabase() {
-  return process.env.JSON_DB_PATH;
-}
-
 /**
  * @param {DIContainer} container
  */
 function addCommonDefinition(container) {
   container.addDefinitions({
-    fs,
     session: factory(configureSession),
-    uuid: factory(configureUuid),
     multer: factory(configureMulter),
-    JSONDatabase: factory(configureJSONDatabase),
+    DatabaseAdapter: factory(configureDatabase),
   });
 }
 
@@ -60,7 +53,7 @@ function addClubModuleDefinitions(container) {
   container.addDefinitions({
     ClubController: object(ClubController).construct(get('ClubService'), get('multer')),
     ClubService: object(ClubService).construct(get('ClubRepository')),
-    ClubRepository: object(ClubRepository).construct(get('fs'), get('JSONDatabase'), get('uuid')),
+    ClubRepository: object(ClubRepository).construct(get('DatabaseAdapter')),
   });
 }
 
