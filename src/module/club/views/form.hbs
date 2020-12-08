@@ -1,0 +1,102 @@
+<div class="container">
+
+  <h2 class="has-text-centered is-size-1">
+    {{#if club}}
+    Edita el equipo {{club.name}}
+    {{else}}
+    Agrega un nuevo equipo
+    {{/if}}
+    </h2>
+
+  <form action="/club/save" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="{{club.id}}" readonly>
+
+    <div class="field ">
+      <label for="name" class="label">Nombre</label>
+      <div class="control">
+        <input class="input field-body" name="name" type="text" value="{{club.name}}" required >
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="short-name" class="label">Nombre Corto</label>
+      <div class="control">
+        <input class="input field-body" name="short-name" type="text" value="{{club.shortName}}" required >
+      </div>
+    </div>
+
+
+    <div class="field">
+      <label for="tla" class="label">Siglas</label>
+      <div class="control">
+        <input class="input" name="tla" type="text" value="{{club.tla}}" required >
+      </div>
+    </div>
+
+    {{#if club.crestUrl}}
+     <div class="field ">
+      <label for="direccion" class="label">Escudo del club</label>
+        <div class="control">
+          <img src="/{{club.crestUrl}}" class="image is-128x128  my-2 input field-body">
+        </div>
+    </div>
+    {{/if}}
+    <div class="field">
+      <label class="label mt-5" for="crest-url">Cambia el escudo</label>
+      <div class="control">
+        <input class="input" type="file" name="crest-url">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="address" class="label">Dirección</label>
+      <div class="control">
+        <input class="input" name="address" type="text" value="{{club.address}}" required >
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="phone" class="label">Telefono</label>
+      <div class="control">
+        <input class="input" name="phone" type="text" value="{{club.phone}}" required >
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="website" class="label">Website</label>
+      <div class="control">
+        <input class="input" name="website" type="text" value="{{club.website}}" required >
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="email" class="label">Email</label>
+      <div class="control">
+        <input class="input" name="email" type="text" value="{{club.email}}" required >
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="founded" class="label">Fundado en el año</label>
+      <div class="control">
+        <input class="input" name="founded" type="text" value="{{club.founded}}" required >
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="club-colors" class="label">Colores del club</label>
+      <div class="control">
+        <input class="input" name="club-colors" type="text" value="{{club.clubColors}}" required >
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="venue" class="label">Estadio</label>
+      <div class="control">
+        <input class="input" name="venue" type="text" value="{{club.venue}}" required >
+      </div>
+    </div>
+
+    <button type="submit" class="button is-large is-primary my-3">Guardar</button>
+  </form>
+</div>
