@@ -3,7 +3,7 @@
     {
       "previewLimit": 50,
       "driver": "SQLite",
-      "name": "clubs.db",
+      "name": "clubs_db",
       "database": "${workspaceFolder:crud-clubes}/data/database.db"
     }
   ],
