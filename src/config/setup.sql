@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS clubs (
   `name` TEXT NOT NULL,
   short_name TEXT NOT NULL,
   tla TEXT NOT NULL,
-  crest_url TEXT NOT NULL,
+  crest_url TEXT,
   `address` TEXT NOT NULL,
   phone TEXT NOT NULL,
   website TEXT NOT NULL,
