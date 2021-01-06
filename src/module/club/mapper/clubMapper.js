@@ -1,17 +1,17 @@
 const Club = require('../entity/club');
 
-function fromDbToEntity({
+function fromModelToEntity({
   id,
   name,
-  short_name: shortName,
+  shortName,
   tla,
-  crest_url: crestUrl,
+  crestUrl,
   address,
   phone,
   website,
   email,
   founded,
-  club_colors: clubColors,
+  clubColors,
   venue,
 }) {
   return new Club({
@@ -66,5 +66,5 @@ function fromDataToEntity({
 
 module.exports = {
   fromDataToEntity,
-  fromDbToEntity,
+  fromModelToEntity,
 };

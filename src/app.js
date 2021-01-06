@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static('public'));
 
 const container = configureDependencyInjection();
-app.use(container.get('session'));
+app.use(container.get('Session'));
 initializeClubModule(app, container);
 
 const clubController = container.get('ClubController');

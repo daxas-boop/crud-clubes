@@ -1,18 +1,37 @@
-const {
-  default: DIContainer, object, get, factory,
-} = require('rsdi');
-const Sqlite3Database = require('better-sqlite3');
+const { Sequelize } = require('sequelize');
 const multer = require('multer');
 const path = require('path');
 const session = require('express-session');
-const { ClubController, ClubService, ClubRepository } = require('../module/club/module');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const {
+  default: DIContainer, object, get, factory,
+} = require('rsdi');
+const {
+  ClubController, ClubService, ClubRepository, ClubModel,
+} = require('../module/club/module');
 
-function configureDatabase() {
-  return new Sqlite3Database(process.env.DB_PATH);
+function configureClubModel(container) {
+  return ClubModel.setup(container.get('Sequelize'));
 }
 
-function configureSession() {
+function configureSequelize() {
+  return new Sequelize({
+    dialect: 'sqlite',
+    storage: process.env.DB_PATH,
+  });
+}
+
+function configureSequelizeSession() {
+  return new Sequelize({
+    dialect: 'sqlite',
+    storage: process.env.DB_SESSION_PATH,
+  });
+}
+
+function configureSession(container) {
+  const sequelize = container.get('SequelizeSession');
   const sessionConfig = {
+    store: new SequelizeStore({ db: sequelize }),
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
@@ -40,9 +59,10 @@ function configureMulter() {
  */
 function addCommonDefinition(container) {
   container.addDefinitions({
-    session: factory(configureSession),
-    multer: factory(configureMulter),
-    DatabaseAdapter: factory(configureDatabase),
+    Session: factory(configureSession),
+    Multer: factory(configureMulter),
+    Sequelize: factory(configureSequelize),
+    SequelizeSession: factory(configureSequelizeSession),
   });
 }
 
@@ -51,9 +71,10 @@ function addCommonDefinition(container) {
  */
 function addClubModuleDefinitions(container) {
   container.addDefinitions({
-    ClubController: object(ClubController).construct(get('ClubService'), get('multer')),
+    ClubController: object(ClubController).construct(get('ClubService'), get('Multer')),
     ClubService: object(ClubService).construct(get('ClubRepository')),
-    ClubRepository: object(ClubRepository).construct(get('DatabaseAdapter')),
+    ClubRepository: object(ClubRepository).construct(get('ClubModel')),
+    ClubModel: factory(configureClubModel),
   });
 }
 

@@ -9,7 +9,7 @@ module.exports = class ClubController extends AbstractController {
    */
   constructor(clubService, upploadMiddleware) {
     super();
-    this.ROUTE_BASE = '/club';
+    this.ROUTE_BASE = '/clubs';
     this.clubService = clubService;
     this.upploadMiddleware = upploadMiddleware;
   }
@@ -54,7 +54,7 @@ module.exports = class ClubController extends AbstractController {
       res.render('view', { club });
     } catch (e) {
       req.session.errors = [e.message, e.stack];
-      res.redirect('/club');
+      res.redirect('/clubs');
     }
   }
 
@@ -73,7 +73,7 @@ module.exports = class ClubController extends AbstractController {
       res.render('form', { club });
     } catch (e) {
       req.session.errors = [e.message, e.stack];
-      res.redirect('/club');
+      res.redirect('/clubs');
     }
   }
 
@@ -94,7 +94,7 @@ module.exports = class ClubController extends AbstractController {
     } catch (e) {
       req.session.errors = [e.message, e.stack];
     }
-    res.redirect('/club');
+    res.redirect('/clubs');
   }
 
   /**
@@ -114,10 +114,10 @@ module.exports = class ClubController extends AbstractController {
       } else {
         req.session.messages = [`El club con id ${savedClub.id} y nombre ${savedClub.name} se creo con exito.`];
       }
-      res.redirect('/club');
+      res.redirect('/clubs');
     } catch (e) {
       req.session.errors = [e.message, e.stack];
-      res.redirect('/club');
+      res.redirect('/clubs');
     }
   }
 
