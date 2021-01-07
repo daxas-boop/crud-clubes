@@ -9,9 +9,24 @@ const {
 const {
   ClubController, ClubService, ClubRepository, ClubModel,
 } = require('../module/club/module');
+const {
+  AreaController, AreaRepository, AreaService, AreaModel,
+} = require('../module/area/module');
 
+/**
+ * @param {DIContainer} container
+ */
 function configureClubModel(container) {
-  return ClubModel.setup(container.get('Sequelize'));
+  ClubModel.setup(container.get('Sequelize'));
+  ClubModel.setupAssosiations(container.get('AreaModel'));
+  return ClubModel;
+}
+
+/**
+ * @param {DIContainer} container
+ */
+function configureAreaModel(container) {
+  return AreaModel.setup(container.get('Sequelize'));
 }
 
 function configureSequelize() {
@@ -28,6 +43,9 @@ function configureSequelizeSession() {
   });
 }
 
+/**
+ * @param {DIContainer} container
+ */
 function configureSession(container) {
   const sequelize = container.get('SequelizeSession');
   const sessionConfig = {
@@ -71,16 +89,26 @@ function addCommonDefinition(container) {
  */
 function addClubModuleDefinitions(container) {
   container.addDefinitions({
-    ClubController: object(ClubController).construct(get('ClubService'), get('Multer')),
+    ClubController: object(ClubController).construct(get('ClubService'), get('Multer'), get('AreaService')),
     ClubService: object(ClubService).construct(get('ClubRepository')),
-    ClubRepository: object(ClubRepository).construct(get('ClubModel')),
+    ClubRepository: object(ClubRepository).construct(get('ClubModel'), get('AreaModel')),
     ClubModel: factory(configureClubModel),
+  });
+}
+
+function addAreaModuleDefinitions(container) {
+  container.addDefinitions({
+    AreaController: object(AreaController).construct(get('AreaService')),
+    AreaService: object(AreaService).construct(get('AreaRepository')),
+    AreaRepository: object(AreaRepository).construct(get('AreaModel')),
+    AreaModel: factory(configureAreaModel),
   });
 }
 
 module.exports = function configureDI() {
   const container = new DIContainer();
   addCommonDefinition(container);
+  addAreaModuleDefinitions(container);
   addClubModuleDefinitions(container);
   return container;
 };

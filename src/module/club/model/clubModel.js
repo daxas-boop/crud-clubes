@@ -63,4 +63,8 @@ module.exports = class ClubModel extends Model {
     });
     return ClubModel;
   }
+
+  static setupAssosiations(AreaModel) {
+    ClubModel.belongsTo(AreaModel, { foreignKey: 'area_id' });
+  }
 };

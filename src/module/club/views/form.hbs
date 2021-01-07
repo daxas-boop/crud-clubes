@@ -97,6 +97,21 @@
       </div>
     </div>
 
+    <div class="field">
+      <label for="venue" class="label">Area</label>
+      <div class="control">
+        <div class="select">
+          <select name='area-id' required>
+            {{#each areas}}
+            <option value="{{this.id}}" {{#ifCond ../club.Area.id this.id}} selected {{/ifCond}}>
+              {{this.location}}
+            </option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+    </div>
+
     <button type="submit" class="button is-large is-primary my-3">Guardar</button>
   </form>
 </div>

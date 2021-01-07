@@ -8,6 +8,7 @@ app.use(container.get('Session'));
 
 const mainDb = container.get('Sequelize');
 container.get('ClubModel');
+container.get('AreaModel');
 mainDb.sync();
 
 const sessionDb = container.get('SequelizeSession');

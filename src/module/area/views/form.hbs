@@ -1,0 +1,24 @@
+<div class="container">
+
+  <h2 class="has-text-centered is-size-1">
+    {{#if area}}
+    Edita el area {{area.location}}
+    {{else}}
+    Agrega una nueva area
+    {{/if}}
+    </h2>
+
+  <form action="/areas/save" method="POST" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="id" value="{{area.id}}" readonly>
+
+    <div class="field ">
+      <label for="location" class="label">Location</label>
+      <div class="control">
+        <input class="input field-body" name="location" type="text" value="{{area.location}}" required >
+      </div>
+    </div>
+
+    <button type="submit" class="button is-large is-primary my-3">Guardar</button>
+  </form>
+
+</div>

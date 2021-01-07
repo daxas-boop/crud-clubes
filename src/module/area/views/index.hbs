@@ -1,0 +1,44 @@
+<div id="container" class="container is-flex is-align-items-center is-flex-direction-column">
+  {{#each messages}}
+    <div class="message is-primary mt-6">
+      <div class="message-body">
+        {{this}}
+      </div>
+    </div>
+  {{/each}}
+  {{#each errors}}
+    <div class="message is-danger mt-6">
+      <div class="message-body">
+        {{this}}
+      </div>
+    </div>
+  {{/each}}
+  <div class="is-flex">
+    <p class="my-4 mx-4 ">Hay {{areas.length}} areas.</p>
+    <a href="/areas/create" class="button my-2 is-success">Agrega un area.</a>
+  </div>
+  <table class="table table is-striped table is-hoverable table is-bordered">
+    <thead>
+      <th class="has-text-centered">Areas</th>
+      <th class="has-text-centered">Acciones</th>
+    </thead>
+    <tbody>
+      {{#each areas}}
+        <tr>
+          <td>
+            <div class="is-flex is-align-items-center">
+              <p class="ml-2">{{this.location}}</p>
+            </div>
+          </td>
+          <td>
+            <a href="/areas/edit/{{this.id}}" class="button is-primary">Editar</a>
+            <button id="delete-btn" class="button is-danger" data-location="{{this.location}}" data-id="{{this.id}}">Eliminar</button>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <div id="prompt-container"></div>
+</div>
+
+<script src="/public/js/delete-area-prompt.js"></script>

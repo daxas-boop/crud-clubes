@@ -1,4 +1,5 @@
 const Club = require('../entity/club');
+const AreaEntity = require('../../area/entity/area');
 
 function fromModelToEntity({
   id,
@@ -13,7 +14,8 @@ function fromModelToEntity({
   founded,
   clubColors,
   venue,
-}) {
+  Area,
+}, fromAreaModelToEntity) {
   return new Club({
     id,
     name,
@@ -27,6 +29,7 @@ function fromModelToEntity({
     founded,
     clubColors,
     venue,
+    Area: fromAreaModelToEntity(Area),
   });
 }
 
@@ -47,6 +50,7 @@ function fromDataToEntity({
   founded,
   'club-colors': clubColors,
   venue,
+  'area-id': areaId,
 }) {
   return new Club({
     id,
@@ -61,6 +65,7 @@ function fromDataToEntity({
     founded,
     clubColors,
     venue,
+    Area: new AreaEntity({ id: areaId }),
   });
 }
 

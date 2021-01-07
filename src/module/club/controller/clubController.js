@@ -1,17 +1,17 @@
 /* eslint-disable class-methods-use-this */
 const AbstractController = require('../../abstractController');
-const ClubIdNotDefinedError = require('./error/clubIdNotDefinedError');
 const { fromDataToEntity } = require('../mapper/clubMapper');
 
 module.exports = class ClubController extends AbstractController {
   /**
    * @param {import('../service/clubService')} clubService
    */
-  constructor(clubService, upploadMiddleware) {
+  constructor(clubService, upploadMiddleware, areaService) {
     super();
     this.ROUTE_BASE = '/clubs';
     this.clubService = clubService;
     this.upploadMiddleware = upploadMiddleware;
+    this.areaService = areaService;
   }
 
   /**
@@ -34,7 +34,7 @@ module.exports = class ClubController extends AbstractController {
   async index(req, res) {
     const clubs = await this.clubService.getAll();
     const { messages, errors } = req.session;
-    res.render('index', { clubs, messages, errors });
+    res.render('club/views/index', { clubs, messages, errors });
     req.session.messages = [];
     req.session.errors = [];
   }
@@ -44,14 +44,10 @@ module.exports = class ClubController extends AbstractController {
    * @param {import('express').Response} res
    */
   async view(req, res) {
-    const { id } = req.params;
-    if (!id) {
-      throw new ClubIdNotDefinedError();
-    }
-
     try {
+      const { id } = req.params;
       const club = await this.clubService.getById(id);
-      res.render('view', { club });
+      res.render('club/views/view', { club });
     } catch (e) {
       req.session.errors = [e.message, e.stack];
       res.redirect('/clubs');
@@ -63,14 +59,11 @@ module.exports = class ClubController extends AbstractController {
    * @param {import('express').Response} res
    */
   async edit(req, res) {
-    const { id } = req.params;
-    if (!id) {
-      throw new ClubIdNotDefinedError();
-    }
-
     try {
+      const { id } = req.params;
+      const areas = await this.areaService.getAll();
       const club = await this.clubService.getById(id);
-      res.render('form', { club });
+      res.render('club/views/form', { club, areas });
     } catch (e) {
       req.session.errors = [e.message, e.stack];
       res.redirect('/clubs');
@@ -82,12 +75,8 @@ module.exports = class ClubController extends AbstractController {
    * @param {import('express').Response} res
    */
   async delete(req, res) {
-    const { id } = req.params;
-    if (!id) {
-      throw new ClubIdNotDefinedError();
-    }
-
     try {
+      const { id } = req.params;
       const club = await this.clubService.getById(id);
       await this.clubService.delete(club);
       req.session.messages = [`El club con id ${club.id} (${club.name}) se eliminó correctamente.`];
@@ -109,11 +98,13 @@ module.exports = class ClubController extends AbstractController {
         club.crestUrl = path;
       }
       const savedClub = await this.clubService.save(club);
+
       if (club.id) {
         req.session.messages = [`El club con id ${club.id} y nombre ${club.name} se actualizo con exito.`];
       } else {
         req.session.messages = [`El club con id ${savedClub.id} y nombre ${savedClub.name} se creo con exito.`];
       }
+
       res.redirect('/clubs');
     } catch (e) {
       req.session.errors = [e.message, e.stack];
@@ -125,7 +116,14 @@ module.exports = class ClubController extends AbstractController {
    * @param {import('express').Request} req
    * @param {import('express').Response} res
    */
-  create(req, res) {
-    res.render('form');
+  async create(req, res) {
+    const areas = await this.areaService.getAll();
+
+    if (areas.length > 0) {
+      res.render('club/views/form', { areas });
+    } else {
+      req.session.errors = ['Necesitas por lo menos 1 area para crear un equipo'];
+      res.redirect('/clubs');
+    }
   }
 };
