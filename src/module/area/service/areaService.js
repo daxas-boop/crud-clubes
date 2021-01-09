@@ -7,27 +7,27 @@ module.exports = class AreaService {
     this.areaRepository = areaRepository;
   }
 
-  getAll() {
+  async getAll() {
     return this.areaRepository.getAll();
   }
 
-  getById(id) {
+  async getById(id) {
     if (!id) {
       throw new AreaIdNotDefinedError();
     }
     return this.areaRepository.getById(id);
   }
 
-  save(area) {
+  async save(area) {
     if (!(area instanceof Area)) {
-      throw AreaNotDefinedError();
+      throw new AreaNotDefinedError();
     }
     return this.areaRepository.save(area);
   }
 
-  delete(area) {
+  async delete(area) {
     if (!(area instanceof Area)) {
-      throw AreaNotDefinedError();
+      throw new AreaNotDefinedError();
     }
     return this.areaRepository.delete(area);
   }

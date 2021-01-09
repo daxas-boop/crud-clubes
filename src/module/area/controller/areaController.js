@@ -23,10 +23,9 @@ module.exports = class AreaController extends AbstractController {
    */
   async index(req, res) {
     const areas = await this.areaService.getAll();
-    const { errors, messages } = req.session;
-    res.render('area/views/index', { areas, messages, errors });
+    const { messages } = req.session;
+    res.render('area/views/index', { areas, messages });
     req.session.messages = [];
-    req.session.errors = [];
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -34,17 +33,27 @@ module.exports = class AreaController extends AbstractController {
     res.render('area/views/form');
   }
 
-  async edit(req, res) {
+  /**
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
+   */
+  async edit(req, res, next) {
     try {
       const { id } = req.params;
       const area = await this.areaService.getById(id);
       res.render('area/views/form', { area });
     } catch (e) {
-      req.session.errors = [e.message, e.stack];
+      next(e);
     }
   }
 
-  async delete(req, res) {
+  /**
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
+   */
+  async delete(req, res, next) {
     try {
       const { id } = req.params;
       const area = await this.areaService.getById(id);
@@ -52,24 +61,27 @@ module.exports = class AreaController extends AbstractController {
       req.session.messages = [`Se elimino el area con ID:${area.id}`];
       res.redirect('/areas');
     } catch (e) {
-      req.session.errors = [e.message, e.stack];
-      res.redirect('/areas');
+      next(e);
     }
   }
 
-  async save(req, res) {
+  /**
+   * @param {import('express').Request} req
+   * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
+   */
+  async save(req, res, next) {
     try {
       const area = fromDataToEntity(req.body);
       const savedArea = await this.areaService.save(area);
       if (area.id) {
-        req.session.messages = [`Se actualizó el area con ID:${savedArea.id} y Locación: ${savedArea.location}`];
+        req.session.messages = [`Se actualizó el area con ID:${area.id} (${area.location})`];
       } else {
-        req.session.messages = [`Se creó un area con ID:${area.id} y Locación: ${savedArea.location}`];
+        req.session.messages = [`Se creó un area con ID:${savedArea.id} (${savedArea.location})`];
       }
       res.redirect('/areas');
     } catch (e) {
-      req.session.errors = [e.message, e.stack];
-      res.redirect('/areas');
+      next(e);
     }
   }
 };

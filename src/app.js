@@ -11,7 +11,7 @@ const app = express();
 
 app.engine('hbs', exphbs({
   defaultLayout: 'main',
-  layoutsDir: path.join(__dirname, '/module/view'),
+  layoutsDir: path.join(__dirname, '/module/view/layout'),
   extname: 'hbs',
 }));
 app.set('view engine', 'hbs');
@@ -35,6 +35,12 @@ initializeAreaModule(app, container);
 
 const clubController = container.get('ClubController');
 app.get('/', clubController.index.bind(clubController));
+
+// eslint-disable-next-line no-unused-vars
+app.use((error, req, res, next) => {
+  res.status(500);
+  res.render('view/layout/error', { error });
+});
 
 // eslint-disable-next-line no-console
 app.listen(PUERTO, () => console.log(`Listening to http://localhost:${PUERTO}`));

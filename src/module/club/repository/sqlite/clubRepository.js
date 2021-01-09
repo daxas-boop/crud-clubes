@@ -36,11 +36,11 @@ module.exports = class ClubRepository extends AbstractClubRepository {
    */
   async save(club) {
     let savedClub;
-    savedClub = this.clubModel.build(club, { isNewRecord: !club.id, include: this.areaModel });
+    savedClub = this.clubModel.build(club, { isNewRecord: !club.id });
     savedClub.setDataValue('area_id', club.Area.id);
     savedClub = await savedClub.save();
 
-    return fromModelToEntity(savedClub, fromAreaModelToEntity);
+    return fromModelToEntity(savedClub);
   }
 
   /**

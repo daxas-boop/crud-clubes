@@ -16,6 +16,7 @@ function fromModelToEntity({
   venue,
   Area,
 }, fromAreaModelToEntity) {
+  const area = Area ? fromAreaModelToEntity(Area) : {};
   return new Club({
     id,
     name,
@@ -29,7 +30,7 @@ function fromModelToEntity({
     founded,
     clubColors,
     venue,
-    Area: fromAreaModelToEntity(Area),
+    Area: area,
   });
 }
 
