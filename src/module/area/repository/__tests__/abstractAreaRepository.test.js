@@ -11,6 +11,8 @@ test('No se puede crear una instancia directa de AbstractAreaRepository', () => 
 });
 
 test('Se puede crear una instancia que herede de AbstractAreaRepository', () => {
-  class Repository extends AbstractAreaRepository {}
-  expect(new Repository()).toBeInstanceOf(AbstractAreaRepository);
+  const ConcreteRepository = class extends AbstractAreaRepository {};
+  const repositoryInstance = new ConcreteRepository();
+  expect(repositoryInstance).toBeInstanceOf(ConcreteRepository);
+  expect(repositoryInstance).toBeInstanceOf(AbstractAreaRepository);
 });

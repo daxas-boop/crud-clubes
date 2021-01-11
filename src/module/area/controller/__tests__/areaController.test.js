@@ -66,7 +66,7 @@ test('El metodo edit llama al servicio con el id parametro y renderea "area/view
   });
 });
 
-test('El metodo edit agarra el error del servicio y lo pasa a next', async () => {
+test('El metodo edit captura errores del servicio y llama a next con el error', async () => {
   const reqMockWithoutId = {
     params: {},
   };
@@ -100,7 +100,7 @@ test('El metodo delete llama al servicio con el id parametro y redirecciona a "/
   expect(redirectMock).toHaveBeenCalledWith('/areas');
 });
 
-test('El metodo agarra errores del servicio y los pasa a next', async () => {
+test('El metodo captura errores del servicio y llama a next con el error', async () => {
   const nextMock = jest.fn();
   const error = new Error('Delete error');
   const reqMock = {
@@ -158,7 +158,7 @@ test('El metodo save da un mensaje distinto si el pasada area no tiene id', asyn
   expect(reqMock.session.messages).toEqual(['Se creó un area con ID:1 (Argentina)']);
 });
 
-test('El metodo save agarra errores del servicio  y los pasa a next', async () => {
+test('El metodo save captura errores del servicio  y llama a next con el error', async () => {
   const nextMock = jest.fn();
   const reqMock = {
     params: {},

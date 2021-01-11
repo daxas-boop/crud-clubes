@@ -1,8 +1,8 @@
-const AbstractClubRepository = require('../abstractClubRepository');
-const ClubNotFoundError = require('../error/clubNotFoundError');
-const ClubIdNotDefinedError = require('../error/clubIdNotDefinedError');
-const { fromModelToEntity } = require('../../mapper/clubMapper');
-const { fromModelToEntity: fromAreaModelToEntity } = require('../../../area/mapper/areaMapper');
+const AbstractClubRepository = require('./abstractClubRepository');
+const ClubNotFoundError = require('./error/clubNotFoundError');
+const ClubIdNotDefinedError = require('./error/clubIdNotDefinedError');
+const { fromModelToEntity } = require('../mapper/clubMapper');
+const { fromModelToEntity: fromAreaModelToEntity } = require('../../area/mapper/areaMapper');
 
 module.exports = class ClubRepository extends AbstractClubRepository {
   constructor(clubModel, areaModel) {
@@ -13,7 +13,7 @@ module.exports = class ClubRepository extends AbstractClubRepository {
 
   /**
    * @param {String} id
-   * @returns {import('../../entity/club')}
+   * @returns {import('../entity/club')}
    */
   async getById(id) {
     const club = await this.clubModel.findByPk(id, {
@@ -31,8 +31,8 @@ module.exports = class ClubRepository extends AbstractClubRepository {
 
   /**
    *
-   * @param {import('../../entity/club')} club
-   * @returns {import('../../entity/club')}
+   * @param {import('../entity/club')} club
+   * @returns {import('../entity/club')}
    */
   async save(club) {
     let savedClub;
@@ -44,7 +44,7 @@ module.exports = class ClubRepository extends AbstractClubRepository {
   }
 
   /**
-   * @returns {Array<import('../../entity/club')>}
+   * @returns {Array<import('../entity/club')>}
    */
   async getAll() {
     const clubs = await this.clubModel.findAll({
@@ -56,7 +56,7 @@ module.exports = class ClubRepository extends AbstractClubRepository {
   }
 
   /**
-   * @param {import('../../entity/club')} club
+   * @param {import('../entity/club')} club
    * @returns {Boolean}
    */
   async delete(club) {

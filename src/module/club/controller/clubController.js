@@ -5,14 +5,14 @@ const { fromDataToEntity } = require('../mapper/clubMapper');
 module.exports = class ClubController extends AbstractController {
   /**
    * @param {import('../service/clubService')} clubService
-   * @param {import('multer').Multer} upploadMiddleware
+   * @param {import('multer').Multer} uploadMiddleware
    * @param {import('../../area/service/areaService')} areaService
    */
-  constructor(clubService, upploadMiddleware, areaService) {
+  constructor(clubService, uploadMiddleware, areaService) {
     super();
     this.ROUTE_BASE = '/clubs';
     this.clubService = clubService;
-    this.upploadMiddleware = upploadMiddleware;
+    this.uploadMiddleware = uploadMiddleware;
     this.areaService = areaService;
   }
 
@@ -26,7 +26,7 @@ module.exports = class ClubController extends AbstractController {
     app.get(`${ROUTE}/edit/:id`, this.edit.bind(this));
     app.get(`${ROUTE}/delete/:id`, this.delete.bind(this));
     app.get(`${ROUTE}/create`, this.create.bind(this));
-    app.post(`${ROUTE}/save`, this.upploadMiddleware.single('crest-url'), this.save.bind(this));
+    app.post(`${ROUTE}/save`, this.uploadMiddleware.single('crest-url'), this.save.bind(this));
   }
 
   /**
@@ -102,7 +102,7 @@ module.exports = class ClubController extends AbstractController {
       }
       const savedClub = await this.clubService.save(club);
       if (club.id) {
-        req.session.messages = [`El club con id ${club.id} (${savedClub.name}) se actualizo con exito.`];
+        req.session.messages = [`El club con id ${club.id} (${club.name}) se actualizo con exito.`];
       } else {
         req.session.messages = [`El club con id ${savedClub.id} (${savedClub.name}) se creo con exito.`];
       }

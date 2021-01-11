@@ -7,14 +7,4 @@ module.exports = class AbstractClubRepository {
       throw new AbstractClubRepositoryError();
     }
   }
-
-  getAll() {}
-
-  getById() {}
-
-  getData() {}
-
-  save() {}
-
-  delete() {}
 };
