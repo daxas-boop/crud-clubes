@@ -1,10 +1,44 @@
 const Club = require('../entity/club');
+const AreaEntity = require('../../area/entity/area');
+
+function fromModelToEntity({
+  id,
+  name,
+  shortName,
+  tla,
+  crestUrl,
+  address,
+  phone,
+  website,
+  email,
+  founded,
+  clubColors,
+  venue,
+  Area,
+}, fromAreaModelToEntity) {
+  const area = Area ? fromAreaModelToEntity(Area) : {};
+  return new Club({
+    id,
+    name,
+    shortName,
+    tla,
+    crestUrl,
+    address,
+    phone,
+    website,
+    email,
+    founded,
+    clubColors,
+    venue,
+    Area: area,
+  });
+}
 
 /**
  * @param {Object} formData
  * @returns Club
  */
-module.exports = function fromDataToEntity({
+function fromDataToEntity({
   id,
   name,
   'short-name': shortName,
@@ -17,6 +51,7 @@ module.exports = function fromDataToEntity({
   founded,
   'club-colors': clubColors,
   venue,
+  'area-id': areaId,
 }) {
   return new Club({
     id,
@@ -31,5 +66,11 @@ module.exports = function fromDataToEntity({
     founded,
     clubColors,
     venue,
+    Area: new AreaEntity({ id: areaId }),
   });
+}
+
+module.exports = {
+  fromDataToEntity,
+  fromModelToEntity,
 };

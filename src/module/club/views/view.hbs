@@ -37,22 +37,28 @@
       </tr>
       <tr>
         <th>Website</th>
-        <td><a>{{club.website}}</a></td>
+        <td>
+          <a href="{{club.website}}" target="_blank">{{club.website}}</a>
+        </td>
       </tr>
       <tr>
         <th>Email</th>
-        <td>{{club.email}}</td>
+        <td><a href="mailto:{{club.email}}">{{club.email}}</a></td>
       </tr>
       <tr>
         <th>Estadio</th>
         <td>{{club.venue}}</td>
+      </tr>
+      <tr>
+        <th>Area</th>
+        <td>{{club.Area.location}}</td>
       </tr>
     </tbody>
   </table>
   <iframe class='mb-3' src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAO-SOdVnZvTaEmjCXfRbBpitWkmjuOXcY
     &q={{club.address}}" width="400" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
   <div>
-    <a href="/club/edit/{{club.id}}" class="button is-primary mx-4 my-4">Editar</a>
+    <a href="/clubs/edit/{{club.id}}" class="button is-primary mx-4 my-4">Editar</a>
     <button id="delete-btn" data-id={{club.id}} data-name="{{club.name}}" class="button is-danger mx-4 my-4">Eliminar</button>
   </div>
   <div id="prompt-container"></div>

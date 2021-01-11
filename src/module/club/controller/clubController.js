@@ -1,17 +1,19 @@
-/* eslint-disable class-methods-use-this */
 const AbstractController = require('../../abstractController');
-const ClubIdNotDefinedError = require('./error/clubIdNotDefinedError');
-const fromDataToEntity = require('../mapper/clubMapper');
+const AreasNotFoundError = require('./error/areasNotFoundError');
+const { fromDataToEntity } = require('../mapper/clubMapper');
 
 module.exports = class ClubController extends AbstractController {
   /**
    * @param {import('../service/clubService')} clubService
+   * @param {import('multer').Multer} uploadMiddleware
+   * @param {import('../../area/service/areaService')} areaService
    */
-  constructor(clubService, upploadMiddleware) {
+  constructor(clubService, uploadMiddleware, areaService) {
     super();
-    this.ROUTE_BASE = '/club';
+    this.ROUTE_BASE = '/clubs';
     this.clubService = clubService;
-    this.upploadMiddleware = upploadMiddleware;
+    this.uploadMiddleware = uploadMiddleware;
+    this.areaService = areaService;
   }
 
   /**
@@ -24,7 +26,7 @@ module.exports = class ClubController extends AbstractController {
     app.get(`${ROUTE}/edit/:id`, this.edit.bind(this));
     app.get(`${ROUTE}/delete/:id`, this.delete.bind(this));
     app.get(`${ROUTE}/create`, this.create.bind(this));
-    app.post(`${ROUTE}/save`, this.upploadMiddleware.single('crest-url'), this.save.bind(this));
+    app.post(`${ROUTE}/save`, this.uploadMiddleware.single('crest-url'), this.save.bind(this));
   }
 
   /**
@@ -33,75 +35,65 @@ module.exports = class ClubController extends AbstractController {
    */
   async index(req, res) {
     const clubs = await this.clubService.getAll();
-    const { messages, errors } = req.session;
-    res.render('index', { clubs, messages, errors });
+    const { messages } = req.session;
+    res.render('club/views/index', { clubs, messages });
     req.session.messages = [];
-    req.session.errors = [];
   }
 
   /**
    * @param {import('express').Request} req
    * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
    */
-  async view(req, res) {
-    const { id } = req.params;
-    if (!id) {
-      throw new ClubIdNotDefinedError();
-    }
-
+  async view(req, res, next) {
     try {
+      const { id } = req.params;
       const club = await this.clubService.getById(id);
-      res.render('view', { club });
+      res.render('club/views/view', { club });
     } catch (e) {
-      req.session.errors = [e.message, e.stack];
-      res.redirect('/club');
+      next(e);
     }
   }
 
   /**
    * @param {import('express').Request} req
    * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
    */
-  async edit(req, res) {
-    const { id } = req.params;
-    if (!id) {
-      throw new ClubIdNotDefinedError();
-    }
-
+  async edit(req, res, next) {
     try {
+      const { id } = req.params;
+      const areas = await this.areaService.getAll();
       const club = await this.clubService.getById(id);
-      res.render('form', { club });
+      res.render('club/views/form', { club, areas });
     } catch (e) {
-      req.session.errors = [e.message, e.stack];
-      res.redirect('/club');
+      next(e);
     }
   }
 
   /**
    * @param {import('express').Request} req
    * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
    */
-  async delete(req, res) {
-    const { id } = req.params;
-    if (!id) {
-      throw new ClubIdNotDefinedError();
-    }
-
+  async delete(req, res, next) {
     try {
+      const { id } = req.params;
       const club = await this.clubService.getById(id);
       await this.clubService.delete(club);
       req.session.messages = [`El club con id ${club.id} (${club.name}) se eliminó correctamente.`];
+      res.redirect('/clubs');
     } catch (e) {
-      req.session.errors = [e.message, e.stack];
+      next(e);
     }
-    res.redirect('/club');
   }
 
   /**
    * @param {import('express').Request} req
    * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
    */
-  async save(req, res) {
+  async save(req, res, next) {
     try {
       const club = fromDataToEntity(req.body);
       if (req.file) {
@@ -110,22 +102,30 @@ module.exports = class ClubController extends AbstractController {
       }
       const savedClub = await this.clubService.save(club);
       if (club.id) {
-        req.session.messages = [`El club con id ${club.id} y nombre ${club.name} se actualizo con exito.`];
+        req.session.messages = [`El club con id ${club.id} (${club.name}) se actualizo con exito.`];
       } else {
-        req.session.messages = [`El club con id ${savedClub.id} y nombre ${savedClub.name} se creo con exito.`];
+        req.session.messages = [`El club con id ${savedClub.id} (${savedClub.name}) se creo con exito.`];
       }
-      res.redirect('/club');
+      res.redirect('/clubs');
     } catch (e) {
-      req.session.errors = [e.message, e.stack];
-      res.redirect('/club');
+      next(e);
     }
   }
 
   /**
    * @param {import('express').Request} req
    * @param {import('express').Response} res
+   * @param {import('express').NextFunction} next
    */
-  create(req, res) {
-    res.render('form');
+  async create(req, res, next) {
+    try {
+      const areas = await this.areaService.getAll();
+      if (areas.length === 0) {
+        throw new AreasNotFoundError('Necesitas al menos 1 area para crear un club');
+      }
+      res.render('club/views/form', { areas });
+    } catch (e) {
+      next(e);
+    }
   }
 };

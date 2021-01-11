@@ -8,7 +8,7 @@
     {{/if}}
     </h2>
 
-  <form action="/club/save" method="POST" enctype="multipart/form-data">
+  <form action="/clubs/save" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="id" value="{{club.id}}" readonly>
 
     <div class="field ">
@@ -41,10 +41,15 @@
         </div>
     </div>
     {{/if}}
+
     <div class="field">
       <label class="label mt-5" for="crest-url">Cambia el escudo</label>
       <div class="control">
-        <input class="input" type="file" name="crest-url">
+        {{#if club.crestUrl}}
+          <input class="input" type="file" name="crest-url">
+        {{else}}
+          <input class="input" type="file" name="crest-url" required>
+        {{/if}}
       </div>
     </div>
 
@@ -65,7 +70,7 @@
     <div class="field">
       <label for="website" class="label">Website</label>
       <div class="control">
-        <input class="input" name="website" type="text" value="{{club.website}}" required >
+        <input class="input" name="website" type="url" placeholder="http://example.com" value="{{club.website}}" required >
       </div>
     </div>
 
@@ -94,6 +99,21 @@
       <label for="venue" class="label">Estadio</label>
       <div class="control">
         <input class="input" name="venue" type="text" value="{{club.venue}}" required >
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="venue" class="label">Area</label>
+      <div class="control">
+        <div class="select">
+          <select name='area-id' required>
+            {{#each areas}}
+            <option value="{{this.id}}" {{#ifCond ../club.Area.id this.id}} selected {{/ifCond}}>
+              {{this.location}}
+            </option>
+            {{/each}}
+          </select>
+        </div>
       </div>
     </div>
 

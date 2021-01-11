@@ -1,85 +1,69 @@
 const AbstractClubRepository = require('./abstractClubRepository');
 const ClubNotFoundError = require('./error/clubNotFoundError');
-const Club = require('../entity/club');
+const ClubIdNotDefinedError = require('./error/clubIdNotDefinedError');
+const { fromModelToEntity } = require('../mapper/clubMapper');
+const { fromModelToEntity: fromAreaModelToEntity } = require('../../area/mapper/areaMapper');
 
 module.exports = class ClubRepository extends AbstractClubRepository {
-  /**
-   * @param {import('fs')} fileSystem
-   * @param {String} dbPath
-   * @param {import('uuid/v4')} uuid
-   */
-  constructor(fileSystem, dbPath, uuid) {
+  constructor(clubModel, areaModel) {
     super();
-    this.fileSystem = fileSystem;
-    this.dbPath = dbPath;
-    this.uuid = uuid;
+    this.clubModel = clubModel;
+    this.areaModel = areaModel;
   }
 
   /**
    * @param {String} id
+   * @returns {import('../entity/club')}
    */
   async getById(id) {
-    const clubs = this.getData();
-    const club = clubs.find((tmpClub) => tmpClub.id === id);
+    const club = await this.clubModel.findByPk(id, {
+      include: [
+        { model: this.areaModel, paranoid: false },
+      ],
+    });
+
     if (!club) {
-      throw new ClubNotFoundError('Club not found');
-    }
-    return new Club(club);
-  }
-
-  async getAll() {
-    return this.getData().map((club) => new Club(club));
-  }
-
-  getData() {
-    const clubs = this.fileSystem.readFileSync(this.dbPath, { encoding: 'utf-8' });
-    let JSONClubs;
-    try {
-      JSONClubs = JSON.parse(clubs);
-    } catch (e) {
-      JSONClubs = [];
+      throw new ClubNotFoundError(`No se encontró el club con ID: ${id}`);
     }
 
-    return JSONClubs;
-  }
-
-  async save(club) {
-    const clubs = this.getData();
-    let clubToSave;
-    if (club.id) {
-      const clubIndex = clubs.findIndex((tmpClub) => tmpClub.id === club.id);
-      if (clubIndex === -1) {
-        throw new ClubNotFoundError(`El club con el id ${club.id} no se encontró`);
-      }
-      const oldClub = clubs[clubIndex];
-      clubs[clubIndex] = club;
-      clubToSave = club;
-
-      if (!club.crestUrl) {
-        clubs[clubIndex].crestUrl = oldClub.crestUrl;
-      }
-    } else {
-      clubToSave = { ...club, ...{ id: this.uuid() } };
-      clubs.push(clubToSave);
-    }
-    this.saveData(clubs);
-    return clubToSave;
+    return fromModelToEntity(club, fromAreaModelToEntity);
   }
 
   /**
-   * @param {Club} club
+   *
+   * @param {import('../entity/club')} club
+   * @returns {import('../entity/club')}
    */
-  delete(club) {
-    const clubs = this.getData();
-    const clubIndex = clubs.findIndex((tmpClub) => tmpClub.id === club.id);
-    if (clubIndex === -1) {
-      throw new ClubNotFoundError(`El club con id ${club.id} no se encontró.`);
-    }
-    clubs.splice(clubIndex, 1);
-    this.saveData(clubs);
+  async save(club) {
+    let savedClub;
+    savedClub = this.clubModel.build(club, { isNewRecord: !club.id });
+    savedClub.setDataValue('area_id', club.Area.id);
+    savedClub = await savedClub.save();
+
+    return fromModelToEntity(savedClub);
   }
 
-  saveData(content) {
-    this.fileSystem.writeFileSync(this.dbPath, JSON.stringify(content));
+  /**
+   * @returns {Array<import('../entity/club')>}
+   */
+  async getAll() {
+    const clubs = await this.clubModel.findAll({
+      include: [
+        { model: this.areaModel, paranoid: false },
+      ],
+    });
+    return clubs.map((clubData) => fromModelToEntity(clubData, fromAreaModelToEntity));
+  }
+
+  /**
+   * @param {import('../entity/club')} club
+   * @returns {Boolean}
+   */
+  async delete(club) {
+    if (!club || !club.id) {
+      throw new ClubIdNotDefinedError('El ID del club no se encontró');
+    }
+
+    return Boolean(await this.clubModel.destroy({ where: { id: club.id } }));
   }
 };

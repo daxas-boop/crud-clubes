@@ -12,6 +12,7 @@ module.exports = class Club {
     founded,
     clubColors,
     venue,
+    Area,
   }) {
     this.id = id;
     this.name = name;
@@ -25,5 +26,6 @@ module.exports = class Club {
     this.founded = founded;
     this.clubColors = clubColors;
     this.venue = venue;
+    this.Area = Area;
   }
 };

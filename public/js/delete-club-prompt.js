@@ -23,7 +23,7 @@ function generatePrompt(id, name) {
   const $modalFooter = document.createElement('footer');
   $modalFooter.className = 'modal-card-foot is-flex is-justify-content-center';
   const $deleteBtn = document.createElement('a');
-  $deleteBtn.setAttribute('href', `/club/delete/${id}`);
+  $deleteBtn.setAttribute('href', `/clubs/delete/${id}`);
   $deleteBtn.className = 'button is-danger';
   $deleteBtn.innerText = 'Si, eliminalo.';
   const $cancelBtn = document.createElement('button');
