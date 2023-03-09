@@ -1,0 +1,54 @@
+<div>
+  <h5 class='ms-1 my-3'>
+    Cantidad de equipos: {{this.cantidadEquipos}}
+  </h5>
+  <div class='table-responsive border rounded-3'>
+    <table class='table align-middle'>
+      <thead>
+        <tr>
+          <th scope='col'>
+            Nombre equipo
+          </th>
+          <th scope='col'>
+            Pais
+          </th>
+          <th scope='col'>
+            Accion
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each equipos}}
+          <tr>
+            <td>
+              {{this.name}}
+            </td>
+            <td>
+              {{this.area.name}}
+            </td>
+            <td class='d-flex justify-content-around'>
+              <a
+                href='/equipo/{{this.id}}/ver'
+                class='btn btn-info flex-grow-1 mx-1'
+              >
+                Ver
+              </a>
+              <a
+                href='/equipo/{{this.id}}/editar'
+                class='btn btn-primary flex-grow-1 mx-1'
+              >
+                Editar
+              </a>
+              <a
+                href='/equipo/{{this.id}}/borrar'
+                class='btn btn-danger flex-grow-1 mx-1'
+              >
+                Borrar
+              </a>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>

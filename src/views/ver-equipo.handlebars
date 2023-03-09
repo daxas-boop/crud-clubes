@@ -1,0 +1,119 @@
+<div class='my-5 mx-auto'>
+  <ul class='list-group mx-auto text-center' style='width: 300px'>
+    <li class='list-group-item'>
+      <img
+        style='width: 150px; height: 140px'
+        src='{{equipo.crestUrl}}'
+        alt='logo'
+      />
+    </li>
+    <li class='list-group-item'>
+      <p class='h5'>
+        Nombre:
+      </p>
+      <span>
+        {{equipo.name}}
+      </span>
+    </li>
+    <li class='list-group-item'>
+      <p class='h5'>
+        Pais:
+      </p>
+      <span>
+        {{equipo.area.name}}
+      </span>
+    </li>
+    <li class='list-group-item'>
+      <p class='h5'>
+        Nombre corto:
+      </p>
+      <span>
+        {{equipo.shortName}}
+      </span>
+    </li>
+
+    <li class='list-group-item'>
+      <p class='h5'>
+        Siglas:
+      </p>
+      <span>
+        {{equipo.tla}}
+      </span>
+    </li>
+    <li class='list-group-item'>
+      <p class='h5'>
+        Direccion:
+      </p>
+      <span>
+        {{equipo.address}}
+      </span>
+      <div>
+        <iframe
+          width='250'
+          height='250'
+          frameborder='0'
+          style='border:0'
+          referrerpolicy='no-referrer-when-downgrade'
+          src='https://www.google.com/maps/embed/v1/place?key={{API_KEY}}&q={{equipo.address}}'
+        >
+        </iframe>
+      </div>
+    </li>
+    <li class='list-group-item'>
+      <p class='h5'>
+        Telefono:
+      </p>
+      <span>
+        {{equipo.phone}}
+      </span>
+    </li>
+    <li class='list-group-item'>
+      <p class='h5'>
+        Website:
+      </p>
+      <span>
+        {{equipo.website}}
+      </span>
+    </li>
+    <li class='list-group-item'>
+      <p class='h5'>
+        Email:
+      </p>
+      <span>
+        {{equipo.email}}
+      </span>
+    </li>
+    <li class='list-group-item'>
+      <p class='h5'>
+        Fundacion:
+      </p>
+      <span>
+        {{equipo.founded}}
+      </span>
+    </li>
+    <li class='list-group-item'>
+      <p class='h5'>
+        Colores del club:
+      </p>
+      <span>
+        {{equipo.clubColors}}
+      </span>
+    </li>
+    <li class='list-group-item'>
+      <p class='h5'>
+        Cancha:
+      </p>
+      <span>
+        {{equipo.venue}}
+      </span>
+    </li>
+  </ul>
+  <div class='d-flex justify-content-center mt-3'>
+    <a href='/equipo/{{equipo.id}}/editar' class='btn btn-primary btn-lg'>
+      Editar
+    </a>
+    <a href='/equipo/{{equipo.id}}/borrar' class='btn btn-danger btn-lg ms-3'>
+      Borrar
+    </a>
+  </div>
+</div>
