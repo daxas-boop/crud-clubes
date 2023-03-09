@@ -1,7 +1,7 @@
 const express = require('express');
 const { create } = require('express-handlebars');
 const rutasEquipo = require('./rutas/equipo');
-const rutasInicio = require('./rutas/inicio');
+const { traerEquipos } = require('./servicios/equipos');
 
 const app = express();
 const hbs = create();
@@ -9,7 +9,14 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', './src/views');
 
-app.use('/', rutasInicio);
+app.get('/', (req, res) => {
+  const equipos = traerEquipos();
+  res.render('inicio', {
+    equipos: equipos,
+    cantidadEquipos: equipos.length,
+  });
+});
+
 app.use('/equipo', rutasEquipo);
 
 const PUERTO = 8080;
