@@ -53,7 +53,7 @@ router.post('/:id/editar', upload.single('crestUrl'), (req, res) => {
     (equipo) => equipo.id === Number(req.params.id)
   );
 
-  if (!indiceClub) {
+  if (indiceClub === -1) {
     throw Error('Equipo no encontrado');
   }
 
