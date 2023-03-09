@@ -1,0 +1,187 @@
+<div class='mb-3'>
+  {{#if equipo.id}}
+    <input type='text' name='id' value='{{equipo.id}}' hidden readonly />
+  {{/if}}
+  <label for='name' class='form-label'>
+    Nombre
+  </label>
+  <input
+    type='text'
+    class='form-control'
+    id='name'
+    name='name'
+    value='{{equipo.name}}'
+    maxlength='20'
+    required
+  />
+</div>
+<div class='mb-3'>
+  <label for='area' class='form-label'>
+    Pais
+  </label>
+  <input
+    type='text'
+    class='form-control'
+    id='area'
+    name='area'
+    value='{{equipo.area.name}}'
+    maxlength='20'
+    required
+  />
+</div>
+<div class='mb-3'>
+  <label for='short-name' class='form-label'>
+    Nombre corto
+  </label>
+  <input
+    class='form-control'
+    id='short-name'
+    name='short-name'
+    value='{{equipo.shortName}}'
+    type='text'
+    maxlength='20'
+    required
+  />
+</div>
+<div class='mb-3'>
+  <label for='tla' class='form-label'>
+    Siglas
+  </label>
+  <input
+    class='form-control'
+    id='tla'
+    name='tla'
+    value='{{equipo.tla}}'
+    type='text'
+    maxlength='3'
+    required
+  />
+</div>
+<div class='mb-3'>
+  <label for='phone' class='form-label'>
+    Telefono
+  </label>
+  <input
+    class='form-control'
+    id='phone'
+    name='phone'
+    value='{{equipo.phone}}'
+    type='text'
+    maxlength='20'
+    required
+  />
+</div>
+<div class='mb-3'>
+  <label for='website' class='form-label'>
+    Website
+  </label>
+  <input
+    class='form-control'
+    id='website'
+    name='website'
+    value='{{equipo.website}}'
+    type='text'
+    maxlength='20'
+    required
+  />
+</div>
+<div class='mb-3'>
+  <label for='email' class='form-label'>
+    Email
+  </label>
+  <input
+    class='form-control'
+    id='email'
+    name='email'
+    value='{{equipo.email}}'
+    type='text'
+    maxlength='20'
+    required
+  />
+</div>
+<div class='mb-3'>
+  <label for='club-colors' class='form-label'>
+    Colores del club
+  </label>
+  <input
+    class='form-control'
+    id='club-colors'
+    name='club-colors'
+    value='{{equipo.clubColors}}'
+    type='text'
+    maxlength='20'
+    required
+  />
+</div>
+<div class='mb-3'>
+  <label for='venue' class='form-label'>
+    Cancha
+  </label>
+  <input
+    type='text'
+    class='form-control'
+    id='venue'
+    name='venue'
+    value='{{equipo.venue}}'
+    maxlength='20'
+    required
+  />
+</div>
+<div class='mb-3'>
+  <label for='address' class='form-label'>
+    Direccion
+  </label>
+  <input
+    type='text'
+    class='form-control'
+    id='address'
+    name='address'
+    value='{{equipo.address}}'
+    maxlength='40'
+    required
+  />
+</div>
+<div class='mb-3'>
+  <label for='founded' class='form-label'>
+    Anio fundado
+  </label>
+  <input
+    class='form-control'
+    id='founded'
+    name='founded'
+    value='{{equipo.founded}}'
+    type='number'
+    min='0'
+    required
+  />
+</div>
+<div class='mb-3'>
+  <label class='form-label' for='crestUrl'>
+    Logo
+  </label>
+  {{#if equipo.crestUrl}}
+    <img
+      style='width: 80px; height: 80px'
+      class='img-thumbnail mb-2'
+      src='{{equipo.crestUrl}}'
+      alt='crestUrl'
+    />
+    <input name='crestUrl' type='file' class='form-control' id='crestUrl' />
+  {{else}}
+    <input
+      name='crestUrl'
+      type='file'
+      class='form-control'
+      id='crestUrl'
+      required
+    />
+  {{/if}}
+</div>
+<div class='my-5'>
+  <a href='/' class='btn btn-secondary btn-lg'>
+    Cancelar
+  </a>
+  <button type='submit' class='btn btn-primary btn-lg'>
+    Enviar
+  </button>
+</div>

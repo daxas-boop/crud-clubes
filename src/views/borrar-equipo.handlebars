@@ -1,0 +1,18 @@
+<h2 class='text-center'>
+  Desea borrar el equipo: {{name}}?
+</h2>
+<div class='d-flex justify-content-center align-items-center mt-4'>
+  <a href='/' class='btn btn-secondary btn-lg'>
+    Cancelar
+  </a>
+  <form
+    action='/equipo/{{id}}/borrar'
+    method='post'
+    enctype='multipart/form-data'
+    class='m-0'
+  >
+    <button type='submit' class='ms-2 btn btn-danger btn-lg'>
+      Si, borrar
+    </button>
+  </form>
+</div>

@@ -2,6 +2,7 @@ const express = require('express');
 const { create } = require('express-handlebars');
 const rutasEquipo = require('./rutas/equipo');
 const { traerEquipos } = require('./servicios/equipos');
+require('dotenv').config();
 
 const app = express();
 const hbs = create();
