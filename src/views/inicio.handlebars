@@ -2,8 +2,8 @@
   <h5 class='ms-1 my-3'>
     Cantidad de equipos: {{this.cantidadEquipos}}
   </h5>
-  <div class='border rounded-3'>
-    <table class='table'>
+  <div class='table-responsive border rounded-3'>
+    <table class='table align-middle'>
       <thead>
         <tr>
           <th scope='col'>
@@ -26,14 +26,23 @@
             <td>
               {{this.area.name}}
             </td>
-            <td>
-              <a href='/equipo/{{this.id}}/ver' class='btn btn-info'>
+            <td class='d-flex justify-content-around'>
+              <a
+                href='/equipo/{{this.id}}/ver'
+                class='btn btn-info flex-grow-1 mx-1'
+              >
                 Ver
               </a>
-              <a href='/equipo/{{this.id}}/editar' class='btn btn-primary'>
+              <a
+                href='/equipo/{{this.id}}/editar'
+                class='btn btn-primary flex-grow-1 mx-1'
+              >
                 Editar
               </a>
-              <a href='/equipo/{{this.id}}/borrar' class='btn btn-danger'>
+              <a
+                href='/equipo/{{this.id}}/borrar'
+                class='btn btn-danger flex-grow-1 mx-1'
+              >
                 Borrar
               </a>
             </td>
